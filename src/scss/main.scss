@@ -1,0 +1,49 @@
+@import "~tailwindcss/base";
+@import "~tailwindcss/components";
+@import "~tailwindcss/utilities";
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: #3469A4;
+}
+
+body {
+  margin: 0;
+  font-family: 'Muli', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+.footer-icon:hover {
+  opacity: .7;
+}
+
+.flex-wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between
+}
+
+.zoom-container {
+  overflow: hidden;
+  display: block;
+  max-height: 300px;
+
+  img:hover {
+    transition: all .5s;
+    transform: scale(1.1);
+  }
+}
+
+.project-card {
+  min-height: 100%;
+
+  .media {
+    height: 300px;
+  }
+}
