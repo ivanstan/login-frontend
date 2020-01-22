@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface UrlPropsInterface {
   href?: string;
@@ -10,14 +10,16 @@ export class Url extends React.Component<UrlPropsInterface, any> {
     const attributes: any = {};
 
     if (this.props.external) {
-      attributes.target = "_blank";
-      attributes.rel = "nofollow noopener";
+      attributes.target = '_blank';
+      attributes.rel = 'nofollow noopener';
     }
 
     const href = this.props.href || this.props.children;
 
-    return <a href={href} {...attributes}>
-      {this.props.children}
-    </a>;
+    return (
+      <a href={href} {...attributes}>
+        {this.props.children}
+      </a>
+    );
   }
 }

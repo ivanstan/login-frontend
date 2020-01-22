@@ -10,12 +10,11 @@ import {I18n} from 'react-polyglot'
 import {Helmet} from 'react-helmet'
 import Login from "./pages/Login";
 
-@observer
-export default class App extends React.Component<any, any> {
+@observer export default class App extends React.Component<any, any> {
 
   render(): any {
     return (
-      <div className="flex-wrapper">
+      <>
         <Helmet>
           <meta charSet="utf-8"/>
           {/*<title>My Title</title>*/}
@@ -35,7 +34,7 @@ export default class App extends React.Component<any, any> {
             </AnimatedSwitch>
           </Router>
         </I18n>
-      </div>
+      </>
     )
   }
 }

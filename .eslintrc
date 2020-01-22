@@ -55,6 +55,7 @@ rules:
   react/prop-types: 0
   react/require-default-props: off
   react/sort-comp: off
+  react/jsx-props-no-spreading: off
   react/sort-prop-types:
     - error
   react/destructuring-assignment: off
