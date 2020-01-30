@@ -1,9 +1,11 @@
-@import "~tailwindcss/base";
-@import "~tailwindcss/components";
-@import "~tailwindcss/utilities";
+@import "~tailwindcss/dist/base.css";
+@import "~tailwindcss/dist/components.css";
+@import "~tailwindcss/dist/utilities.css";
+@import "~tailwindcss/dist/tailwind.css";
 
 html {
   scroll-behavior: smooth;
+  height: 100%;
 }
 
 ::selection {
@@ -12,10 +14,15 @@ html {
 
 body {
   margin: 0;
+  height: 100%;
   font-family: 'Muli', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+#root {
+  height: 100%;
 }
 
 .footer-icon:hover {

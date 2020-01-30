@@ -16,10 +16,10 @@ class Store {
       return this._messages[this.locale]
     }
 
-    const response = await fetch(`/translations/messages.${this.locale}.json`)
-    const data = await response.json()
+    const response = await fetch(`/translations/messages.${this.locale}.json`);
+    const data = await response.json();
 
-    this._messages[this.locale] = data
+    this._messages[this.locale] = data;
 
     return data
   });

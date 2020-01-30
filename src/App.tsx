@@ -9,6 +9,7 @@ import {store} from './services/stores/Store'
 import {I18n} from 'react-polyglot'
 import {Helmet} from 'react-helmet'
 import Login from "./pages/Login";
+import './scss/main.scss';
 
 @observer export default class App extends React.Component<any, any> {
 
