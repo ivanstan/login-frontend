@@ -19,8 +19,9 @@ export class UserStore extends Hydra {
     return plainToClass(User, user);
   }
 
-  public new() {
-
+  public async new(user: User) {
+    const response = await this.request('POST', this.baseUrl + '/users/', [], user);
+    return await response.json();
   }
 
   public async collection(): Promise<User[]> {
@@ -31,18 +32,19 @@ export class UserStore extends Hydra {
       return result;
     }
 
-    const users = response.json();
+    const data = await response.json();
 
-    console.log(users);
+    console.log(data);
 
     return result;
   }
 
-  public delete() {
-
+  public async delete(user: User) {
+    const response = await this.request('DELETE', this.baseUrl + '/users/' + user.id);
+    return await response.json();
   }
 
-  public async update(user: any) {
+  public async update(user: User) {
     const response = await this.request('PATCH', this.baseUrl + '/users/' + user.id, [], user);
 
     if (response.status !== 200) {
