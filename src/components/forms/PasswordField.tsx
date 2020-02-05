@@ -49,7 +49,6 @@ export class PasswordField extends React.Component<PasswordFieldPropsInterface, 
           {label}
         </InputLabel>
         <OutlinedInput
-          autoComplete="off"
           endAdornment={(
             <InputAdornment position="end">
               <IconButton

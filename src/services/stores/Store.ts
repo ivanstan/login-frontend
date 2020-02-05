@@ -32,7 +32,8 @@ class Store {
     });
   }
 
-  @action async login(email: string, password: string) {
+  @action
+  async login(email: string, password: string) {
     const response = await user.login(email, password);
 
     if (response.status === 200) {
