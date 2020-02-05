@@ -10,6 +10,7 @@ class User {
   public async login(email: string, password: string) {
     const response = await fetch('http://localhost/login-backend/public/login', {
       method: 'post',
+      credentials: 'include',
       headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded',
       }),
