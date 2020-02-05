@@ -26,25 +26,23 @@ class Store {
 
   @observable user: any = null;
 
-  @action me() {
-    user.me().then((response) => {
-      console.log(response);
-    });
+  @action async me() {
+    const userModel = await user.me();
+
+    if (userModel) {
+      this.user = userModel;
+    }
+
+    return this.user;
   }
 
   @action
   async login(email: string, password: string) {
-    const response = await user.login(email, password);
+    const userModel = await user.login(email, password);
 
-    if (response.status === 200) {
-      const user = await response.json();
-
-      this.user = user;
-
-      return user;
+    if (userModel !== null) {
+      this.user = userModel;
     }
-
-    throw await response.json();
   }
 }
 

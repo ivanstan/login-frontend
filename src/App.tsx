@@ -15,7 +15,13 @@ import {UserCollection} from "./pages/Admin/User/UserCollection";
 @observer export default class App extends React.Component<any, any> {
 
   componentDidMount(): void {
-    store.me();
+    store.me().then(user => {
+      if (user) {
+        console.info('Logged in as: ' + user.email);
+      } else {
+        console.info('Logged in as: Anonymous');
+      }
+    });
   }
 
   render(): any {
@@ -29,7 +35,6 @@ import {UserCollection} from "./pages/Admin/User/UserCollection";
 
         <I18n locale={store.locale} messages={store.messages} allowMissing={true}>
           <Router>
-            <Header/>
             <AnimatedSwitch
               atEnter={{opacity: 0}}
               atLeave={{opacity: 0}}

@@ -1,10 +1,19 @@
+import {User as UserModel} from '../model/User';
+import {plainToClass} from "class-transformer";
+
 class User {
   public async me() {
     const response = await fetch('http://localhost/login-backend/public/users/me', {
       credentials: 'include'
     });
 
-    return await response.json();
+    if (response && response.status !== 200) {
+      return null;
+    }
+
+    const user = await response.json();
+
+    return plainToClass(UserModel, user);
   }
 
   public async login(email: string, password: string) {
@@ -17,7 +26,13 @@ class User {
       body: `email=${email}&password=${password}`,
     });
 
-    return await response.json();
+    if (response && response.status !== 200) {
+      return null;
+    }
+
+    const user = await response.json();
+
+    return plainToClass(UserModel, user);
   }
 
   public async logout() {

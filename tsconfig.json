@@ -19,7 +19,8 @@
     "experimentalDecorators": true,
     "noEmit": true,
     "jsx": "react",
-    "sourceMap": true
+    "sourceMap": true,
+    "strictPropertyInitialization": false
   },
   "include": [
     "src"

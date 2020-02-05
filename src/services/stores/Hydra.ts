@@ -1,6 +1,6 @@
 export class Hydra {
 
-  public async request(method: string, url: string, params = [], body: any = null) {
+  public async request(method: string, url: string, params = [], body: any = null): Promise<Response> {
     let options: any = {
       method: method,
       headers: {},
@@ -13,9 +13,7 @@ export class Hydra {
       options.body = JSON.stringify(body);
     }
 
-    const response = await fetch(url, options);
-
-    return await response.json();
+    return await fetch(url, options);
   }
 
 }
