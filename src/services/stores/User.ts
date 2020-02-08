@@ -36,7 +36,7 @@ export class UserStore extends Hydra {
 
     console.log(data);
 
-    return result;
+    return data;
   }
 
   public async delete(user: User) {
