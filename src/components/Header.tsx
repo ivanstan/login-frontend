@@ -1,6 +1,6 @@
 import React from 'react'
 import {translate} from 'react-polyglot'
-import {AppBar, Badge, Button, IconButton, Menu, MenuItem, Typography} from "@material-ui/core";
+import {AppBar, IconButton, Menu, MenuItem, Typography} from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
 import {Link} from "react-router-dom";
 import {AccountCircle} from "@material-ui/icons";
@@ -31,10 +31,10 @@ class Header extends React.Component<any, any> {
     const renderMenu = (
       <Menu
         anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{vertical: 'top', horizontal: 'right'}}
         id={menuId}
         keepMounted
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        transformOrigin={{vertical: 'top', horizontal: 'right'}}
         open={this.isMenuOpen}
         onClose={this.handleMenuClose}
       >
@@ -51,7 +51,6 @@ class Header extends React.Component<any, any> {
           </Typography>
 
 
-
           <div>
             <IconButton
               edge="end"
@@ -61,11 +60,9 @@ class Header extends React.Component<any, any> {
               onClick={this.handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <AccountCircle/>
             </IconButton>
           </div>
-
-
 
 
           <Link to="/login">Login</Link>
