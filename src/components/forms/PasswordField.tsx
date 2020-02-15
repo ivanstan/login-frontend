@@ -51,7 +51,9 @@ export class PasswordField extends React.Component<PasswordFieldPropsInterface, 
 
     return (
       <FormControl fullWidth={fullWidth} required={required} variant={variant} className={className}>
-        <InputLabel htmlFor="standard-adornment-password" variant={variant}>
+        <InputLabel htmlFor="standard-adornment-password" variant={variant}
+                    {..._.pick(this.props, ['error'])}
+                    style={{background: '#FFF', padding: '0 3px'}}>
           {label}
         </InputLabel>
         <OutlinedInput
