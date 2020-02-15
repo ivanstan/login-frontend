@@ -2,17 +2,22 @@ import React from 'react';
 import {translate} from 'react-polyglot';
 import {observer} from 'mobx-react';
 import {store} from "../services/stores/Store";
-import {Button, Card, CardContent, styled, Typography} from "@material-ui/core";
+import {Button, Card, CardContent, LinearProgress, styled, Typography} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import {PasswordField} from "../components/forms/PasswordField";
 import * as EmailValidator from 'email-validator';
+import {AccountCircle} from "@material-ui/icons";
 
 const EmailField = styled(TextField)({
   marginBottom: 15,
 });
 
 const StyledPasswordField = styled(PasswordField)({
+  marginBottom: 15,
+});
+
+const StyledLinearProgress = styled(LinearProgress)({
   marginBottom: 15,
 });
 
@@ -23,6 +28,7 @@ class Login extends React.Component<any, any> {
   private password: any;
 
   readonly state: any = {
+    dirty: false,
     email: '',
     emailError: null,
     password: '',
@@ -63,6 +69,7 @@ class Login extends React.Component<any, any> {
   handleChange = (prop: string, event: any) => {
     let state = this.state;
     state[prop] = event.target.value;
+    state['dirty'] = true;
     this.setState(state);
     this.validate();
   };
@@ -105,12 +112,16 @@ class Login extends React.Component<any, any> {
 
   render = (): any => {
     const {t} = this.props;
-    const {email, password, emailError, passwordError} = this.state;
+    const {email, password, emailError, passwordError, dirty} = this.state;
 
     return <Container maxWidth="xs">
       <div className="h-screen">
         <Card variant="outlined" className="vertical-align">
           <CardContent>
+            <div>
+              <AccountCircle/>
+
+            </div>
 
             <Typography component="h1" variant="h5" color="textPrimary" gutterBottom>
               {t('Login')}
@@ -123,7 +134,7 @@ class Login extends React.Component<any, any> {
               value={email}
               fullWidth
               error={emailError !== null}
-              helperText={emailError || ' '}
+              helperText={dirty && (emailError || ' ')}
               onChange={e => this.handleChange('email', e)}
               ref={input => this.email = input}
             />
@@ -134,10 +145,12 @@ class Login extends React.Component<any, any> {
               fullWidth
               onChange={(e: Event) => this.handleChange('password', e)}
               onKeyPress={this.onKeyPress}
-              error={passwordError !== null}
+              error={dirty && (passwordError !== null)}
               helperText={passwordError}
               ref={input => this.password = input}
             />
+
+            <StyledLinearProgress className={!this.state.loading ? "invisible" : 'visible'}/>
 
             <Button
               fullWidth

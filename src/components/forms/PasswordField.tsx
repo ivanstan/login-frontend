@@ -55,7 +55,7 @@ export class PasswordField extends React.Component<PasswordFieldPropsInterface, 
           {label}
         </InputLabel>
         <OutlinedInput
-          {..._.pick(this.props, ['ref', 'onKeyPress'])}
+          {..._.pick(this.props, ['ref', 'onKeyPress', 'error'])}
           endAdornment={(
             <InputAdornment position="end">
               <IconButton
