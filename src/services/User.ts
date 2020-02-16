@@ -4,7 +4,7 @@ import {config} from "../config";
 
 class User {
   public me = async () => {
-    const response = await fetch(config.api + 'users/me', {
+    const response = await fetch(config.api + '/users/me', {
       credentials: 'include'
     });
 
@@ -37,9 +37,9 @@ class User {
   };
 
   public async logout() {
-    const response = await fetch(config.api + '/logout');
-
-    console.log(response)
+    const response = await fetch(config.api + '/logout', {
+      credentials: 'include',
+    });
 
     return await response.json();
   }
