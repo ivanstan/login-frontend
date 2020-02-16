@@ -1,6 +1,7 @@
 import {action, computed, observable} from 'mobx'
 import {promisedComputed} from 'computed-async-mobx'
 import {user} from '../User';
+import {User} from "../../model/User";
 
 class Store {
   @observable locale = window.localStorage.getItem('locale') || 'en';
@@ -26,7 +27,7 @@ class Store {
 
   @observable user: any = null;
 
-  @action async me() {
+  @action me = async () => {
     const userModel = await user.me();
 
     if (userModel) {
@@ -34,20 +35,28 @@ class Store {
     }
 
     return this.user;
-  }
+  };
 
-  @action
-  async login(email: string, password: string) {
+  @action login = async (email: string, password: string) => {
     try {
-      const userModel = await user.login(email, password);
+      const userModel: User = await user.login(email, password);
 
       if (userModel !== null) {
         this.user = userModel;
       }
     } catch (response) {
-        throw response;
+      throw response;
     }
-  }
+  };
+
+  @action logout = async () => {
+    try {
+      const userModel = await user.logout();
+      this.user = null;
+    } catch (response) {
+      throw response;
+    }
+  };
 }
 
 export const store = new Store();

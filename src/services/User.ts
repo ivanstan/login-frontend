@@ -2,7 +2,7 @@ import {User as UserModel} from '../model/User';
 import {plainToClass} from "class-transformer";
 
 class User {
-  public async me() {
+  public me = async () => {
     const response = await fetch('http://localhost/login-backend/public/users/me', {
       credentials: 'include'
     });
@@ -14,9 +14,9 @@ class User {
     const user = await response.json();
 
     return plainToClass(UserModel, user);
-  }
+  };
 
-  public async login(email: string, password: string) {
+  public login = async (email: string, password: string) => {
     const response = await fetch('http://localhost/login-backend/public/login', {
       method: 'post',
       credentials: 'include',
@@ -33,7 +33,7 @@ class User {
     const user = await response.json();
 
     return plainToClass(UserModel, user);
-  }
+  };
 
   public async logout() {
     const response = await fetch('http://localhost/login-backend/public/logout');

@@ -4,42 +4,47 @@ import {AppBar, IconButton, Menu, MenuItem, Typography} from "@material-ui/core"
 import Toolbar from "@material-ui/core/Toolbar";
 import {Link} from "react-router-dom";
 import {AccountCircle} from "@material-ui/icons";
+import {store} from "../services/stores/Store";
+
+const userMenuId = 'primary-user-menu';
 
 class Header extends React.Component<any, any> {
 
+  private userMenu: React.RefObject<unknown> = React.createRef();
+
   public state: any = {
-    anchorEl: null
+    userMenuAnchor: null,
   };
 
-  isMenuOpen = Boolean(this.state.anchorEl);
-
-  handleProfileMenuOpen = (event: any) => {
-    this.setState({anchorEl: event.currentTarget});
+  public handleUserMenuOpen = (event: any) => {
+    this.setState({userMenuAnchor: event.currentTarget});
   };
 
-  handleMenuClose = () => {
-    this.setState({
-      anchorEl: null
-    });
+  public handleUserMenuClose = () => {
+    this.setState({userMenuAnchor: null});
   };
 
-  public render() {
-    const {anchorEl} = this.state;
+  public logout: () => void = () => {
+    store.logout();
+    this.handleUserMenuClose();
+  };
+
+  public render = () => {
+    const {userMenuAnchor} = this.state;
     const {t} = this.props;
 
-    const menuId = 'primary-search-account-menu';
-    const renderMenu = (
+    const userMenu = (
       <Menu
-        anchorEl={anchorEl}
+        anchorEl={userMenuAnchor}
         anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-        id={menuId}
+        id={userMenuId}
         keepMounted
         transformOrigin={{vertical: 'top', horizontal: 'right'}}
-        open={this.isMenuOpen}
-        onClose={this.handleMenuClose}
+        open={userMenuAnchor !== null}
+        onClose={this.handleUserMenuClose}
       >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={this.handleUserMenuClose}>{t('Profile')}</MenuItem>
+        <MenuItem onClick={this.logout}>{t('Logout')}</MenuItem>
       </Menu>
     );
 
@@ -47,30 +52,31 @@ class Header extends React.Component<any, any> {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6">
-            Application
+            {t('Application')}
           </Typography>
 
+          <div>
+            <Link to="/login">{t('Login')}</Link>
+          </div>
 
           <div>
             <IconButton
               edge="end"
               aria-label="account of current user"
-              aria-controls={menuId}
+              aria-controls={userMenuId}
               aria-haspopup="true"
-              onClick={this.handleProfileMenuOpen}
+              onClick={this.handleUserMenuOpen}
               color="inherit"
             >
               <AccountCircle/>
             </IconButton>
           </div>
 
-
-          <Link to="/login">Login</Link>
         </Toolbar>
-        {renderMenu}
+        {userMenu}
       </AppBar>
     )
-  }
+  };
 }
 
 export default translate()(Header)
