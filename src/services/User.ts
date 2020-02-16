@@ -27,7 +27,7 @@ class User {
     });
 
     if (response && response.status !== 200) {
-      return null;
+      throw response;
     }
 
     const user = await response.json();

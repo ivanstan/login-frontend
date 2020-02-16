@@ -2,12 +2,12 @@ import React from 'react';
 import {translate} from 'react-polyglot';
 import {observer} from 'mobx-react';
 import {store} from "../services/stores/Store";
-import {Button, Card, CardContent, LinearProgress, styled, Typography} from "@material-ui/core";
+import {Button, Card, CardContent, FormHelperText, LinearProgress, styled, Typography} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import {PasswordField} from "../components/forms/PasswordField";
 import * as EmailValidator from 'email-validator';
-import {AccountCircle} from "@material-ui/icons";
+import {FilledInputProps} from "@material-ui/core/FilledInput";
 
 const EmailField = styled(TextField)({
   marginBottom: 15,
@@ -34,6 +34,7 @@ class Login extends React.Component<any, any> {
     password: '',
     passwordError: null,
     loading: false,
+    formError: null,
   };
 
   constructor(props: any, context: any) {
@@ -43,27 +44,25 @@ class Login extends React.Component<any, any> {
     this.password = React.createRef();
   }
 
-  submit = () => {
+  submit = async () => {
     const {email, password} = this.state;
+    const {t} = this.props;
 
-    this.setState({
-      loading: true
-    });
-    store.login(email, password)
-      .then(user => {
-        this.setState({
-          loading: false
-        });
-        this.props.history.push('/');
-      })
-      .catch(exception => {
-        this.setState({
-          loading: false
-        });
+    this.setState({loading: true});
 
-        console.log(exception)
+    try {
+      await store.login(email, password);
 
-      });
+      this.setState({loading: false});
+      this.props.history.push('/');
+    } catch (response) {
+
+      if (response.status === 403) {
+        this.setState({formError: t('Invalid credentials.')});
+      }
+
+      this.setState({loading: false});
+    }
   };
 
   handleChange = (prop: string, event: any) => {
@@ -112,55 +111,58 @@ class Login extends React.Component<any, any> {
 
   render = (): any => {
     const {t} = this.props;
-    const {email, password, emailError, passwordError, dirty} = this.state;
+    const {email, password, emailError, passwordError, dirty, formError} = this.state;
 
     return <Container maxWidth="xs">
       <div className="h-screen">
         <Card variant="outlined" className="vertical-align">
           <CardContent>
-            <div>
-              <AccountCircle/>
-
-            </div>
-
             <Typography component="h1" variant="h5" color="textPrimary" gutterBottom>
               {t('Login')}
             </Typography>
 
-            <EmailField
-              autoFocus
-              label={t('Email')}
-              variant="outlined"
-              value={email}
-              fullWidth
-              error={emailError !== null}
-              helperText={dirty && (emailError || ' ')}
-              onChange={e => this.handleChange('email', e)}
-              ref={input => this.email = input}
-            />
+            <form>
+              <FormHelperText error={true} style={{marginBottom: 30, marginTop: 15}}>
+                {formError || ' '}
+              </FormHelperText>
 
-            <StyledPasswordField
-              label={t('Password')}
-              variant="outlined" value={password}
-              fullWidth
-              onChange={(e: Event) => this.handleChange('password', e)}
-              onKeyPress={this.onKeyPress}
-              error={dirty && (passwordError !== null)}
-              helperText={passwordError}
-              ref={input => this.password = input}
-            />
+                <EmailField
+                InputProps={{autoComplete: 'email'} as FilledInputProps}
+                autoFocus
+                label={t('Email')}
+                variant="outlined"
+                value={email}
+                fullWidth
+                error={emailError !== null}
+                helperText={dirty && (emailError || ' ')}
+                onChange={e => this.handleChange('email', e)}
+                ref={input => this.email = input}
+              />
 
-            <StyledLinearProgress className={!this.state.loading ? "invisible" : 'visible'}/>
+              <StyledPasswordField
+                label={t('Password')}
+                variant="outlined" value={password}
+                fullWidth
+                onChange={(e: Event) => this.handleChange('password', e)}
+                onKeyPress={this.onKeyPress}
+                error={dirty && (passwordError !== null)}
+                helperText={passwordError}
+                ref={input => this.password = input}
+              />
 
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={this.submit} size="large"
-              disabled={!this.isSubmitEnabled()}
-            >
-              {t('Login')}
-            </Button>
+              <StyledLinearProgress className={!this.state.loading ? "invisible" : 'visible'}/>
+
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={this.submit} size="large"
+                disabled={!this.isSubmitEnabled()}
+              >
+                {t('Login')}
+              </Button>
+
+            </form>
           </CardContent>
 
         </Card>

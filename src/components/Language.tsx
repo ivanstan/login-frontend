@@ -14,16 +14,16 @@ const Item: any = styled.a`
     color: rgba(0, 0, 0);
     text-decoration: none;
   }
-`
+`;
 
 class Language extends React.Component<any, any> {
   static onChange(locale: string) {
-    store.locale = locale
-    window.localStorage.setItem('locale', locale)
+    store.locale = locale;
+    window.localStorage.setItem('locale', locale);
   }
 
   render(): any {
-    const { t } = this.props
+    const { t } = this.props;
 
     return (
       <div className="ml-auto">

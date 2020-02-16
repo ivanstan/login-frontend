@@ -38,10 +38,14 @@ class Store {
 
   @action
   async login(email: string, password: string) {
-    const userModel = await user.login(email, password);
+    try {
+      const userModel = await user.login(email, password);
 
-    if (userModel !== null) {
-      this.user = userModel;
+      if (userModel !== null) {
+        this.user = userModel;
+      }
+    } catch (response) {
+        throw response;
     }
   }
 }
