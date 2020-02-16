@@ -45,15 +45,9 @@ import {If} from "react-if";
 
           <I18n locale={store.locale} messages={store.messages} allowMissing={true}>
             <Router>
-              <AnimatedSwitch
-                atEnter={{opacity: 0}}
-                atLeave={{opacity: 0}}
-                atActive={{opacity: 1}}
-              >
                 <Route path="/" exact component={Home}/>
                 <Route path="/login" exact component={Login}/>
                 <Route path="/admin/users" exact component={UserCollection}/>
-              </AnimatedSwitch>
             </Router>
           </I18n>
 
