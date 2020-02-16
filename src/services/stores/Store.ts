@@ -2,9 +2,14 @@ import {action, computed, observable} from 'mobx'
 import {promisedComputed} from 'computed-async-mobx'
 import {user} from '../User';
 import {User} from "../../model/User";
+import { configure } from "mobx"
+
+configure({ enforceActions: "never" });
 
 class Store {
   @observable locale = window.localStorage.getItem('locale') || 'en';
+
+  @observable user: any = null;
 
   @computed get messages() {
     return this.getMessagesAsync.get()
@@ -24,8 +29,6 @@ class Store {
 
     return data
   });
-
-  @observable user: any = null;
 
   @action me = async () => {
     const userModel = await user.me();

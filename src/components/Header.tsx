@@ -7,6 +7,8 @@ import {AccountCircle} from "@material-ui/icons";
 import {store} from "../services/stores/Store";
 import {withStyles} from '@material-ui/core/styles';
 import {If} from "react-if";
+import {observer} from "mobx-react";
+import {withRouter} from 'react-router';
 
 const userMenuId = 'primary-user-menu';
 
@@ -22,6 +24,7 @@ const useStyles: any = theme => ({
   }
 });
 
+@observer
 class Header extends React.Component<any, any> {
 
   public state: any = {
@@ -37,8 +40,15 @@ class Header extends React.Component<any, any> {
   };
 
   public logout: () => void = () => {
-    store.logout();
+    store.logout().then(user => {
+      store.user = null;
+    });
+
     this.handleUserMenuClose();
+  };
+
+  public login: () => void = () => {
+    this.props.history.push('/login');
   };
 
   public render = () => {
@@ -56,7 +66,8 @@ class Header extends React.Component<any, any> {
         open={userMenuAnchor !== null}
         onClose={this.handleUserMenuClose}
       >
-        <MenuItem onClick={this.logout}>{t('Logout')}</MenuItem>
+        {!anon && <MenuItem onClick={this.logout}>{t('Logout')}</MenuItem>}
+        {anon && <MenuItem onClick={this.login}>{t('Login')}</MenuItem>}
       </Menu>
     );
 
@@ -93,4 +104,4 @@ class Header extends React.Component<any, any> {
   };
 }
 
-export default translate()(withStyles(useStyles)(Header))
+export default translate()(withStyles(useStyles)(withRouter(Header)))
