@@ -1,1 +1,3 @@
-export const contactMail = 'scs@serbiancaseforspace.com'
+export const config = {
+  api: 'http://localhost/login-backend/public/',
+};

@@ -1,9 +1,10 @@
 import {User as UserModel} from '../model/User';
 import {plainToClass} from "class-transformer";
+import {config} from "../config";
 
 class User {
   public me = async () => {
-    const response = await fetch('http://localhost/login-backend/public/users/me', {
+    const response = await fetch(config.api + 'users/me', {
       credentials: 'include'
     });
 
@@ -17,7 +18,7 @@ class User {
   };
 
   public login = async (email: string, password: string) => {
-    const response = await fetch('http://localhost/login-backend/public/login', {
+    const response = await fetch(config.api + '/login', {
       method: 'post',
       credentials: 'include',
       headers: new Headers({
@@ -36,7 +37,10 @@ class User {
   };
 
   public async logout() {
-    const response = await fetch('http://localhost/login-backend/public/logout');
+    const response = await fetch(config.api + '/logout');
+
+    console.log(response)
+
     return await response.json();
   }
 }

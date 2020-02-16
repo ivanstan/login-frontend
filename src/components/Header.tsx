@@ -39,10 +39,13 @@ class Header extends React.Component<any, any> {
     this.setState({userMenuAnchor: null});
   };
 
-  public logout: () => void = () => {
-    store.logout().then(user => {
+  public logout: () => void = async () => {
+    try {
+      await store.logout();
       store.user = null;
-    });
+    } catch(error) {
+      console.log(error)
+    }
 
     this.handleUserMenuClose();
   };
