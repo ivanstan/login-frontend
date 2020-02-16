@@ -5,7 +5,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import {Link} from "react-router-dom";
 import {AccountCircle} from "@material-ui/icons";
 import {store} from "../services/stores/Store";
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
+import {If} from "react-if";
 
 const userMenuId = 'primary-user-menu';
 
@@ -43,6 +44,7 @@ class Header extends React.Component<any, any> {
   public render = () => {
     const {userMenuAnchor} = this.state;
     const {t, classes} = this.props;
+    const anon = store.user === null;
 
     const userMenu = (
       <Menu
@@ -66,7 +68,9 @@ class Header extends React.Component<any, any> {
           </Typography>
 
           <div className={classes.mainMenu}>
-            <Link to="/login">{t('Login')}</Link>
+            <If condition={anon}>
+              <Link to="/login">{t('Login')}</Link>
+            </If>
           </div>
 
           <div>
