@@ -5,12 +5,23 @@ import Toolbar from "@material-ui/core/Toolbar";
 import {Link} from "react-router-dom";
 import {AccountCircle} from "@material-ui/icons";
 import {store} from "../services/stores/Store";
+import { withStyles } from '@material-ui/core/styles';
 
 const userMenuId = 'primary-user-menu';
 
-class Header extends React.Component<any, any> {
+const useStyles: any = theme => ({
+  container: {
+    display: 'flex',
+  },
+  title: {
+    marginRight: theme.spacing(2),
+  },
+  mainMenu: {
+    flexGrow: 1
+  }
+});
 
-  private userMenu: React.RefObject<unknown> = React.createRef();
+class Header extends React.Component<any, any> {
 
   public state: any = {
     userMenuAnchor: null,
@@ -31,7 +42,7 @@ class Header extends React.Component<any, any> {
 
   public render = () => {
     const {userMenuAnchor} = this.state;
-    const {t} = this.props;
+    const {t, classes} = this.props;
 
     const userMenu = (
       <Menu
@@ -43,19 +54,18 @@ class Header extends React.Component<any, any> {
         open={userMenuAnchor !== null}
         onClose={this.handleUserMenuClose}
       >
-        <MenuItem onClick={this.handleUserMenuClose}>{t('Profile')}</MenuItem>
         <MenuItem onClick={this.logout}>{t('Logout')}</MenuItem>
       </Menu>
     );
 
     return (
       <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">
+        <Toolbar className={classes.container}>
+          <Typography variant="h6" className={classes.title}>
             {t('Application')}
           </Typography>
 
-          <div>
+          <div className={classes.mainMenu}>
             <Link to="/login">{t('Login')}</Link>
           </div>
 
@@ -79,4 +89,4 @@ class Header extends React.Component<any, any> {
   };
 }
 
-export default translate()(Header)
+export default translate()(withStyles(useStyles)(Header))
