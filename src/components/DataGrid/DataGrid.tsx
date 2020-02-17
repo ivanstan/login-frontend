@@ -1,5 +1,14 @@
 import React from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow
+} from "@material-ui/core";
 import { Pagination } from '@material-ui/lab';
 import { activity } from "../../services/ActivityStore";
 import { User } from "../../model/User";
@@ -7,6 +16,7 @@ import { If } from "react-if";
 import { DataSource } from "../../services/data/DataSource";
 import { Column } from "./Column";
 import { Foreach } from "../Foreach";
+import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 
 export interface DataGridPropsInterface {
   data: DataSource,
@@ -18,6 +28,7 @@ export class DataGrid extends React.Component<DataGridPropsInterface, any> {
   public state = {
     member: [],
     total: 0,
+    page: 1,
   };
 
   componentDidMount(): void {
@@ -34,11 +45,14 @@ export class DataGrid extends React.Component<DataGridPropsInterface, any> {
     });
   }
 
+  onPaginationChange = (event, page) => {
+
+    this.setState({page: page});
+  };
+
   render(): any {
     const { data, columns } = this.props;
-    const { member, total } = this.state;
-
-    console.log(columns)
+    const { member, total, page } = this.state;
 
     return (
       <>
@@ -64,7 +78,15 @@ export class DataGrid extends React.Component<DataGridPropsInterface, any> {
         </TableContainer>
 
         <If condition={member.length < total}>
-          <Pagination color="primary" count={10}/>
+          <TablePagination
+            rowsPerPageOptions={[]}
+            labelRowsPerPage=''
+            component="div"
+            count={total}
+            rowsPerPage={2}
+            page={page}
+            onChangePage={this.onPaginationChange}
+          />
         </If>
       </>
     );

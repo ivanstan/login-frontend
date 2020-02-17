@@ -10,6 +10,10 @@ import { withStyles } from "@material-ui/core/styles";
 
 const useStyles: any = theme => ({});
 
+const config = {
+  // rowsPerPage
+};
+
 @observer
 class UserCollection extends React.Component<any, any> {
 
