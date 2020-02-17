@@ -12,6 +12,7 @@ import {UserCollection} from "./pages/Admin/User/UserCollection";
 import {Else, If, Then} from "react-if";
 import Loader from "./components/Loader";
 import NotFound from "./pages/NotFound";
+import PrivateRoute from "./components/PrivateRoute";
 
 @observer export default class App extends React.Component<any, any> {
 
@@ -48,7 +49,9 @@ import NotFound from "./pages/NotFound";
                 <Switch>
                   <Route path="/" exact component={Home}/>
                   <Route path="/login" exact component={Login}/>
-                  <Route path="/admin/users" exact component={UserCollection}/>
+                  <PrivateRoute path="/admin/users" exact condition={false}>
+                    <UserCollection/>
+                  </PrivateRoute>
                   <Route component={NotFound}/>
                 </Switch>
               </Router>

@@ -1,21 +1,25 @@
-import {Route} from 'react-router-dom';
 import React from 'react';
-import {Else, If, Then} from 'react-if';
-import { Redirect } from "react-router-dom";
+import {Redirect, Route} from 'react-router';
 
-export class PrivateRoute extends React.Component<any, any> {
-  render(): any {
-    const {props} = this.props;
-
+export default class PrivateRoute extends React.Component<any, any> {
+  render() {
+    const {children, condition, ...rest} = this.props;
     return (
-      <If condition={true}>
-        <Then>
-          <Route {...props} />
-        </Then>
-        <Else>
-          <Redirect to="/login"/>
-        </Else>
-      </If>
+      <Route
+        {...rest}
+        render={({location}) =>
+          condition ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: {from: location},
+              }}
+            />
+          )
+        }
+      />
     );
   }
 }
