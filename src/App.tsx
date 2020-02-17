@@ -8,7 +8,7 @@ import { I18n } from 'react-polyglot'
 import { Helmet } from 'react-helmet'
 import Login from "./pages/Login";
 import './scss/main.scss';
-import { UserCollection } from "./pages/Admin/User/UserCollection";
+import UserCollection from "./pages/Admin/User/UserCollection";
 import { Else, If, Then } from "react-if";
 import Loader from "./components/Loader";
 import NotFound from "./pages/NotFound";

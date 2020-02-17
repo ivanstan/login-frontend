@@ -61,8 +61,6 @@ class Header extends React.Component<any, any> {
     const {t, classes} = this.props;
     const anon = store.user.id === null;
 
-    console.log(1, store.user)
-
     const userMenu = (
       <Menu
         anchorEl={userMenuAnchor}
@@ -78,11 +76,11 @@ class Header extends React.Component<any, any> {
       </Menu>
     );
 
-    console.log(activity.pending)
+    console.log(activity.isPending({activity: null}));
 
     return (
       <AppBar position="static">
-        <If condition={activity.pending}>
+        <If condition={activity.isPending({activity: null})}>
           <LinearProgress />
         </If>
         <Toolbar className={classes.container}>

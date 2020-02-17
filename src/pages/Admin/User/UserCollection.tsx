@@ -1,50 +1,41 @@
 import React from 'react';
-import { userStore } from '../../../services/stores/User';
+import { userDataSource } from '../../../services/data/UserDataSource';
 import Header from '../../../components/Header';
-import { activity } from "../../../services/ActivityStore";
 import { observer } from "mobx-react";
+import { Container } from "@material-ui/core";
+import { DataGrid } from "../../../components/DataGrid/DataGrid";
+import { Column } from "../../../components/DataGrid/Column";
+import { translate } from "react-polyglot";
+import { withStyles } from "@material-ui/core/styles";
+
+const useStyles: any = theme => ({});
 
 @observer
-export class UserCollection extends React.Component<any, any> {
+class UserCollection extends React.Component<any, any> {
 
-  public state: any = {
-    member: [],
-  };
+  private columns: Column[] = [];
 
-  componentDidMount(): void {
-    activity.add('get-users');
-    userStore.collection().then((users: any) => {
-      activity.remove('get-users');
+  constructor(props) {
+    super(props);
 
-      console.log(users['hydra:member']);
+    const { t } = this.props;
 
-      this.setState({
-        member: users['hydra:member']
-      });
-    });
-
-    // userStore.get(2).then(user => {
-    //   if (user === null) {
-    //     return;
-    //   }
-    //
-    //   console.log(user);
-    //
-    //   user.active = false;
-    //
-    //   userStore.update(user).then(user2 => {
-    //     console.log(user2);
-    //   });
-    // });
+    this.columns = [
+      new Column('email', t('Email', {primary: true}))
+    ];
   }
 
-
   render(): any {
+
     return (
       <>
         <Header/>
-
+        <Container>
+          <DataGrid data={userDataSource} columns={this.columns}/>
+        </Container>
       </>
     );
   }
 }
+
+export default translate()(withStyles(useStyles)(UserCollection))

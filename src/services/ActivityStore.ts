@@ -1,4 +1,5 @@
 import { action, computed, observable } from "mobx";
+import { createTransformer } from "mobx-utils";
 
 class ActivityStore {
 
@@ -15,9 +16,10 @@ class ActivityStore {
     }
   }
 
-  get pending(): boolean {
+  @observable
+  public isPending = createTransformer((name = null) => {
     return this._pending.length > 0;
-  }
+  });
 
 }
 
