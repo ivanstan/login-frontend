@@ -8,9 +8,11 @@ import { PasswordField } from "../components/forms/PasswordField";
 import * as EmailValidator from 'email-validator';
 import { FilledInputProps } from "@material-ui/core/FilledInput";
 import { withStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router";
 
 const useStyles: any = theme => ({
+  container: {
+    height: '100vh',
+  },
   spacerBottom: {
     marginBottom: theme.spacing(3),
   },
@@ -108,62 +110,60 @@ class Login extends React.Component<any, any> {
     const { t, classes } = this.props;
     const { email, password, emailError, passwordError, dirty, formError } = this.state;
 
-    return <Container maxWidth="xs">
-      <div className="h-screen">
-        <Card variant="outlined" className="vertical-align">
-          <CardContent>
-            <Typography component="h1" variant="h5" color="textPrimary" gutterBottom>
+    return <Container maxWidth="xs" className={classes.container}>
+      <Card variant="outlined" className="vertical-align">
+        <CardContent>
+          <Typography component="h1" variant="h5" color="textPrimary" gutterBottom>
+            {t('Login')}
+          </Typography>
+
+          <form>
+            <FormHelperText error={true} style={{ marginBottom: 30, marginTop: 15 }}>
+              {formError || ' '}
+            </FormHelperText>
+
+            <TextField
+              className={classes.spacerBottom}
+              InputProps={{ autoComplete: 'email' } as FilledInputProps}
+              autoFocus
+              label={t('Email')}
+              variant="outlined"
+              value={email}
+              fullWidth
+              error={emailError !== null}
+              helperText={dirty && (emailError || ' ')}
+              onChange={e => this.handleChange('email', e)}
+              ref={input => this.email = input}
+            />
+
+            <PasswordField
+              label={t('Password')}
+              variant="outlined" value={password}
+              fullWidth
+              onChange={(e: Event) => this.handleChange('password', e)}
+              onKeyPress={this.onKeyPress}
+              error={dirty && (passwordError !== null)}
+              helperText={passwordError}
+              ref={input => this.password = input}
+              className={classes.spacerBottom}
+            />
+
+            <LinearProgress style={{visibility: this.state.loading ? 'visible' : 'hidden'}} className={classes.spacerBottom}/>
+
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={this.submit} size="large"
+              disabled={!this.isSubmitEnabled()}
+            >
               {t('Login')}
-            </Typography>
+            </Button>
 
-            <form>
-              <FormHelperText error={true} style={{ marginBottom: 30, marginTop: 15 }}>
-                {formError || ' '}
-              </FormHelperText>
+          </form>
+        </CardContent>
 
-              <TextField
-                className={classes.spacerBottom}
-                InputProps={{ autoComplete: 'email' } as FilledInputProps}
-                autoFocus
-                label={t('Email')}
-                variant="outlined"
-                value={email}
-                fullWidth
-                error={emailError !== null}
-                helperText={dirty && (emailError || ' ')}
-                onChange={e => this.handleChange('email', e)}
-                ref={input => this.email = input}
-              />
-
-              <PasswordField
-                label={t('Password')}
-                variant="outlined" value={password}
-                fullWidth
-                onChange={(e: Event) => this.handleChange('password', e)}
-                onKeyPress={this.onKeyPress}
-                error={dirty && (passwordError !== null)}
-                helperText={passwordError}
-                ref={input => this.password = input}
-                className={classes.spacerBottom}
-              />
-
-              <LinearProgress className={!this.state.loading ? "invisible" : 'visible'}/>
-
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                onClick={this.submit} size="large"
-                disabled={!this.isSubmitEnabled()}
-              >
-                {t('Login')}
-              </Button>
-
-            </form>
-          </CardContent>
-
-        </Card>
-      </div>
+      </Card>
     </Container>;
   };
 }
