@@ -1,7 +1,6 @@
 import React from 'react'
 import 'animate.css/animate.min.css'
 import {HashRouter as Router, Route} from 'react-router-dom'
-import {AnimatedSwitch} from 'react-router-transition'
 import Home from './pages/Home'
 import {observer} from 'mobx-react'
 import {store} from './services/stores/Store'
@@ -10,7 +9,8 @@ import {Helmet} from 'react-helmet'
 import Login from "./pages/Login";
 import './scss/main.scss';
 import {UserCollection} from "./pages/Admin/User/UserCollection";
-import {If} from "react-if";
+import {Else, If, Then} from "react-if";
+import Loader from "./components/Loader";
 
 @observer export default class App extends React.Component<any, any> {
 
@@ -40,17 +40,19 @@ import {If} from "react-if";
           {/*<title>My Title</title>*/}
           {/*<link rel="canonical" href="http://mysite.com/example"/>*/}
         </Helmet>
-
         <If condition={init}>
-
-          <I18n locale={store.locale} messages={store.messages} allowMissing={true}>
-            <Router>
+          <Then>
+            <I18n locale={store.locale} messages={store.messages} allowMissing={true}>
+              <Router>
                 <Route path="/" exact component={Home}/>
                 <Route path="/login" exact component={Login}/>
                 <Route path="/admin/users" exact component={UserCollection}/>
-            </Router>
-          </I18n>
-
+              </Router>
+            </I18n>
+          </Then>
+          <Else>
+            <Loader/>
+          </Else>
         </If>
       </>
     )
