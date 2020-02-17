@@ -1,24 +1,19 @@
 import React from 'react';
-import {translate} from 'react-polyglot';
-import {observer} from 'mobx-react';
-import {store} from "../services/stores/Store";
-import {Button, Card, CardContent, FormHelperText, LinearProgress, styled, Typography} from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
+import { translate } from 'react-polyglot';
+import { observer } from 'mobx-react';
+import { store } from "../services/stores/Store";
+import { Button, Card, CardContent, FormHelperText, LinearProgress, TextField, Typography } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
-import {PasswordField} from "../components/forms/PasswordField";
+import { PasswordField } from "../components/forms/PasswordField";
 import * as EmailValidator from 'email-validator';
-import {FilledInputProps} from "@material-ui/core/FilledInput";
+import { FilledInputProps } from "@material-ui/core/FilledInput";
+import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router";
 
-const EmailField = styled(TextField)({
-  marginBottom: 15,
-});
-
-const StyledPasswordField = styled(PasswordField)({
-  marginBottom: 15,
-});
-
-const StyledLinearProgress = styled(LinearProgress)({
-  marginBottom: 15,
+const useStyles: any = theme => ({
+  spacerBottom: {
+    marginBottom: theme.spacing(3),
+  },
 });
 
 @observer
@@ -45,23 +40,23 @@ class Login extends React.Component<any, any> {
   }
 
   submit = async () => {
-    const {email, password} = this.state;
-    const {t} = this.props;
+    const { email, password } = this.state;
+    const { t } = this.props;
 
-    this.setState({loading: true});
+    this.setState({ loading: true });
 
     try {
       await store.login(email, password);
 
-      this.setState({loading: false});
+      this.setState({ loading: false });
       this.props.history.push('/');
     } catch (response) {
 
       if (response.status === 403) {
-        this.setState({formError: t('Invalid credentials.')});
+        this.setState({ formError: t('Invalid credentials.') });
       }
 
-      this.setState({loading: false});
+      this.setState({ loading: false });
     }
   };
 
@@ -74,7 +69,7 @@ class Login extends React.Component<any, any> {
   };
 
   validate = () => {
-    const {t} = this.props;
+    const { t } = this.props;
     let emailError = null;
     let passwordError = null;
 
@@ -90,11 +85,11 @@ class Login extends React.Component<any, any> {
       passwordError = t('Password is required.');
     }
 
-    this.setState({emailError: emailError, passwordError: passwordError});
+    this.setState({ emailError: emailError, passwordError: passwordError });
   };
 
   isValid = (): boolean => {
-    const {emailError, passwordError} = this.state;
+    const { emailError, passwordError } = this.state;
 
     return emailError === null && passwordError === null;
   };
@@ -110,8 +105,8 @@ class Login extends React.Component<any, any> {
   };
 
   render = (): any => {
-    const {t} = this.props;
-    const {email, password, emailError, passwordError, dirty, formError} = this.state;
+    const { t, classes } = this.props;
+    const { email, password, emailError, passwordError, dirty, formError } = this.state;
 
     return <Container maxWidth="xs">
       <div className="h-screen">
@@ -122,12 +117,13 @@ class Login extends React.Component<any, any> {
             </Typography>
 
             <form>
-              <FormHelperText error={true} style={{marginBottom: 30, marginTop: 15}}>
+              <FormHelperText error={true} style={{ marginBottom: 30, marginTop: 15 }}>
                 {formError || ' '}
               </FormHelperText>
 
-                <EmailField
-                InputProps={{autoComplete: 'email'} as FilledInputProps}
+              <TextField
+                className={classes.spacerBottom}
+                InputProps={{ autoComplete: 'email' } as FilledInputProps}
                 autoFocus
                 label={t('Email')}
                 variant="outlined"
@@ -139,7 +135,7 @@ class Login extends React.Component<any, any> {
                 ref={input => this.email = input}
               />
 
-              <StyledPasswordField
+              <PasswordField
                 label={t('Password')}
                 variant="outlined" value={password}
                 fullWidth
@@ -148,9 +144,10 @@ class Login extends React.Component<any, any> {
                 error={dirty && (passwordError !== null)}
                 helperText={passwordError}
                 ref={input => this.password = input}
+                className={classes.spacerBottom}
               />
 
-              <StyledLinearProgress className={!this.state.loading ? "invisible" : 'visible'}/>
+              <LinearProgress className={!this.state.loading ? "invisible" : 'visible'}/>
 
               <Button
                 fullWidth
@@ -171,4 +168,5 @@ class Login extends React.Component<any, any> {
   };
 }
 
-export default translate()(Login);
+export default translate()(withStyles(useStyles)(Login))
+

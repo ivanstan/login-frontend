@@ -18,7 +18,6 @@ module.exports = override(
     },
   ]),
   ...addBabelPlugins(
-    'babel-plugin-styled-components',
     'babel-plugin-jsx-remove-data-test-id'
   )
 );
