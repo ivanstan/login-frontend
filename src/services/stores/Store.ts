@@ -9,7 +9,7 @@ configure({ enforceActions: "never" });
 class Store {
   @observable locale = window.localStorage.getItem('locale') || 'en';
 
-  @observable user: any = null;
+  @observable user: User = new User();
 
   @computed get messages() {
     return this.getMessagesAsync.get()
@@ -55,7 +55,7 @@ class Store {
   @action logout = async () => {
     try {
       const userModel = await user.logout();
-      this.user = null;
+      this.user = new User();
     } catch (response) {
       throw response;
     }

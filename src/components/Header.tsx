@@ -9,6 +9,7 @@ import {withStyles} from '@material-ui/core/styles';
 import {If} from "react-if";
 import {observer} from "mobx-react";
 import {withRouter} from 'react-router';
+import { User } from "../model/User";
 
 const userMenuId = 'primary-user-menu';
 
@@ -42,7 +43,7 @@ class Header extends React.Component<any, any> {
   public logout: () => void = async () => {
     try {
       await store.logout();
-      store.user = null;
+      store.user = new User();
     } catch(error) {
       console.log(error)
     }

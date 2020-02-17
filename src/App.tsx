@@ -1,18 +1,19 @@
 import React from 'react'
 import 'animate.css/animate.min.css'
-import {HashRouter as Router, Route, Switch} from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from './pages/Home'
-import {observer} from 'mobx-react'
-import {store} from './services/stores/Store'
-import {I18n} from 'react-polyglot'
-import {Helmet} from 'react-helmet'
+import { observer } from 'mobx-react'
+import { store } from './services/stores/Store'
+import { I18n } from 'react-polyglot'
+import { Helmet } from 'react-helmet'
 import Login from "./pages/Login";
 import './scss/main.scss';
-import {UserCollection} from "./pages/Admin/User/UserCollection";
-import {Else, If, Then} from "react-if";
+import { UserCollection } from "./pages/Admin/User/UserCollection";
+import { Else, If, Then } from "react-if";
 import Loader from "./components/Loader";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
+import { Role } from "./model/Role";
 
 @observer export default class App extends React.Component<any, any> {
 
@@ -29,11 +30,11 @@ import PrivateRoute from "./components/PrivateRoute";
       console.info('Logged in as: Anonymous');
     }
 
-    this.setState({init: true});
+    this.setState({ init: true });
   };
 
   render(): any {
-    const {init} = this.state;
+    const { init } = this.state;
 
     return (
       <>
@@ -49,7 +50,7 @@ import PrivateRoute from "./components/PrivateRoute";
                 <Switch>
                   <Route path="/" exact component={Home}/>
                   <Route path="/login" exact component={Login}/>
-                  <PrivateRoute path="/admin/users" exact condition={false}>
+                  <PrivateRoute path="/admin/users" exact condition={store.user.hasRole(Role.Admin)}>
                     <UserCollection/>
                   </PrivateRoute>
                   <Route component={NotFound}/>
