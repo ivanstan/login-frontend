@@ -2,6 +2,7 @@ import React from 'react'
 import { translate } from 'react-polyglot'
 import styled from 'styled-components'
 import { store } from '../services/stores/Store'
+import { locale } from "../services/LocaleStore";
 
 const Item: any = styled.a`
   cursor: pointer;
@@ -17,9 +18,9 @@ const Item: any = styled.a`
 `;
 
 class Language extends React.Component<any, any> {
-  static onChange(locale: string) {
-    store.locale = locale;
-    window.localStorage.setItem('locale', locale);
+  static onChange(current: string) {
+    locale.current = current;
+    window.localStorage.setItem('locale', current);
   }
 
   render(): any {
@@ -30,7 +31,7 @@ class Language extends React.Component<any, any> {
         <ul className="nav">
           <li className="nav-item">
             <Item
-              active={store.locale === 'en'}
+              active={locale.current === 'en'}
               onClick={() => Language.onChange('en')}
             >
               {t('English')}
@@ -38,7 +39,7 @@ class Language extends React.Component<any, any> {
           </li>
           <li className="nav-item">
             <Item
-              active={store.locale === 'sr'}
+              active={locale.current === 'sr'}
               onClick={() => Language.onChange('sr')}
             >
               {t('Serbian')}

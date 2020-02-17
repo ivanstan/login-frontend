@@ -1,6 +1,6 @@
 import React from 'react'
 import {translate} from 'react-polyglot'
-import {AppBar, IconButton, Menu, MenuItem, Typography} from "@material-ui/core";
+import { AppBar, IconButton, LinearProgress, Menu, MenuItem, Typography } from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
 import {Link} from "react-router-dom";
 import {AccountCircle} from "@material-ui/icons";
@@ -10,6 +10,7 @@ import {If} from "react-if";
 import {observer} from "mobx-react";
 import {withRouter} from 'react-router';
 import { User } from "../model/User";
+import { activity } from "../services/ActivityStore";
 
 const userMenuId = 'primary-user-menu';
 
@@ -77,6 +78,9 @@ class Header extends React.Component<any, any> {
 
     return (
       <AppBar position="static">
+        <If condition={activity.pending}>
+          <LinearProgress />
+        </If>
         <Toolbar className={classes.container}>
           <Typography variant="h6" className={classes.title}>
             {t('Application')}

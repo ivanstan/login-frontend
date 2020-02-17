@@ -14,6 +14,7 @@ import Loader from "./components/Loader";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import { Role } from "./model/Role";
+import { locale } from "./services/LocaleStore";
 
 @observer export default class App extends React.Component<any, any> {
 
@@ -45,7 +46,7 @@ import { Role } from "./model/Role";
         </Helmet>
         <If condition={init}>
           <Then>
-            <I18n locale={store.locale} messages={store.messages} allowMissing={true}>
+            <I18n locale={locale.current} messages={locale.messages} allowMissing={true}>
               <Router>
                 <Switch>
                   <Route path="/" exact component={Home}/>
