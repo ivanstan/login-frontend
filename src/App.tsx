@@ -1,6 +1,6 @@
 import React from 'react'
 import 'animate.css/animate.min.css'
-import {HashRouter as Router, Route} from 'react-router-dom'
+import {HashRouter as Router, Route, Switch} from 'react-router-dom'
 import Home from './pages/Home'
 import {observer} from 'mobx-react'
 import {store} from './services/stores/Store'
@@ -11,6 +11,7 @@ import './scss/main.scss';
 import {UserCollection} from "./pages/Admin/User/UserCollection";
 import {Else, If, Then} from "react-if";
 import Loader from "./components/Loader";
+import NotFound from "./pages/NotFound";
 
 @observer export default class App extends React.Component<any, any> {
 
@@ -44,9 +45,12 @@ import Loader from "./components/Loader";
           <Then>
             <I18n locale={store.locale} messages={store.messages} allowMissing={true}>
               <Router>
-                <Route path="/" exact component={Home}/>
-                <Route path="/login" exact component={Login}/>
-                <Route path="/admin/users" exact component={UserCollection}/>
+                <Switch>
+                  <Route path="/" exact component={Home}/>
+                  <Route path="/login" exact component={Login}/>
+                  <Route path="/admin/users" exact component={UserCollection}/>
+                  <Route component={NotFound}/>
+                </Switch>
               </Router>
             </I18n>
           </Then>
