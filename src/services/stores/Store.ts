@@ -1,8 +1,8 @@
-import { action, observable } from 'mobx';
+import { action, observable, configure } from 'mobx';
 import { user } from '../User';
 import { User } from '../../model/User';
 
-// configure({ enforceActions: 'never' });
+configure({ enforceActions: 'never' });
 
 class Store {
 

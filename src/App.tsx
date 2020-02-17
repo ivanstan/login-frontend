@@ -25,7 +25,7 @@ import { locale } from "./services/LocaleStore";
   componentDidMount = async () => {
     const user = await store.me();
 
-    if (user) {
+    if (user.id) {
       console.info('Logged in as: ' + user.email);
     } else {
       console.info('Logged in as: Anonymous');

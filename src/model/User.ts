@@ -1,5 +1,5 @@
 export class User {
-  public id: number;
+  public id: number|null;
   public email: string;
   public roles: string[];
   public active: boolean;
@@ -7,6 +7,7 @@ export class User {
   public updated: string;
 
   constructor() {
+    this.id = null;
     this.roles = [];
   }
 

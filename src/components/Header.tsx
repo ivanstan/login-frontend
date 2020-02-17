@@ -59,7 +59,9 @@ class Header extends React.Component<any, any> {
   public render = () => {
     const {userMenuAnchor} = this.state;
     const {t, classes} = this.props;
-    const anon = store.user === null;
+    const anon = store.user.id === null;
+
+    console.log(1, store.user)
 
     const userMenu = (
       <Menu
@@ -75,6 +77,8 @@ class Header extends React.Component<any, any> {
         {anon && <MenuItem onClick={this.login}>{t('Login')}</MenuItem>}
       </Menu>
     );
+
+    console.log(activity.pending)
 
     return (
       <AppBar position="static">
